@@ -14,7 +14,26 @@ extension UIView {
         widthAnchor.constraint(equalToConstant: width).isActive = true
         heightAnchor.constraint(equalToConstant: height).isActive = true
     }
+    
+    func center(inView view: UIView, yConstant: CGFloat? = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
+        centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: yConstant!).isActive = true
+    }
+
+    func centerX(inView view: UIView, topAnchor: NSLayoutYAxisAnchor? = nil, paddingTop: CGFloat? = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
+        centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        if let topAnchor = topAnchor {
+            self.topAnchor.constraint(equalTo: topAnchor, constant: paddingTop!).isActive = true
+        }
+    }
+
+    
 }
+
+
 
 extension UIColor {
     
@@ -43,3 +62,28 @@ extension UIView {
     }
 }
 
+private extension UIWindow {
+    var firstResponder: UIResponder? {
+        return findFirstResponder(in: self)
+    }
+    
+    func findFirstResponder(in view: UIView) -> UIResponder? {
+        if view.isFirstResponder {
+            return view
+        }
+        for subview in view.subviews {
+            if let responder = findFirstResponder(in: subview) {
+                return responder
+            }
+        }
+        return nil
+    }
+}
+
+extension UIView {
+    func addTapAction(target: Any, action: Selector) {
+           let tapGesture = UITapGestureRecognizer(target: target, action: action)
+           self.isUserInteractionEnabled = true // Garante que a view possa receber toques
+           self.addGestureRecognizer(tapGesture)
+    }
+}
