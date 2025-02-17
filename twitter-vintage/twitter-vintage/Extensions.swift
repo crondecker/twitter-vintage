@@ -29,8 +29,6 @@ extension UIView {
             self.topAnchor.constraint(equalTo: topAnchor, constant: paddingTop!).isActive = true
         }
     }
-
-    
 }
 
 

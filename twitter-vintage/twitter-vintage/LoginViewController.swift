@@ -16,27 +16,21 @@ class LoginViewController: UIViewController {
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
-    
-    let emailContainerView: UIView = {
-        let view = UIView()
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        
-        let iv = UIImageView()
-        iv.image = UIImage(named: String(stringLiteral: "mail"))
-        iv.setDimensions(width: 24, height: 24)
-        iv.tintColor = .white
-        view.addSubview(iv)
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        iv.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        return view
+
+    let emailImageView: UIImageView = {
+        let im = UIImageView()
+        im.image = UIImage(named: String(stringLiteral: "mail"))
+        im.setDimensions(width: 24, height: 24)
+        im.tintColor = .white
+        im.translatesAutoresizingMaskIntoConstraints = false
+        return im
     }()
-    
+
+
     let emailTextView: UITextField = {
         let tv = UITextField()
-        tv.placeholder = "Email"
+        tv.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        tv.textColor = .white
         tv.font = UIFont.systemFont(ofSize: 14)
         tv.textColor = .white
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -52,32 +46,25 @@ class LoginViewController: UIViewController {
         dv.heightAnchor.constraint(equalToConstant: 0.65).isActive = true
         return dv
     }()
-    
-    let passwordContainerView: UIView = {
-        let view = UIView()
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        
-        let iv = UIImageView()
-        iv.image = UIImage(named: String(stringLiteral: "lock"))
-        iv.setDimensions(width: 24, height: 24)
-        iv.tintColor = .white
-        view.addSubview(iv)
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        iv.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        return view
+
+    let passwordImageView: UIImageView = {
+        let im = UIImageView()
+        im.image = UIImage(named: String(stringLiteral: "lock"))
+        im.setDimensions(width: 24, height: 24)
+        im.tintColor = .white
+        im.translatesAutoresizingMaskIntoConstraints = false
+        return im
     }()
-    
+
+
     let passwordTextView: UITextField = {
         let tv = UITextField()
-        tv.placeholder = "Password"
+        tv.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        tv.textColor = .white
         tv.font = UIFont.systemFont(ofSize: 14)
         tv.textColor = .white
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        tv.isSecureTextEntry = true
         return tv
     }()
     
@@ -89,21 +76,22 @@ class LoginViewController: UIViewController {
         dv.heightAnchor.constraint(equalToConstant: 0.65).isActive = true
         return dv
     }()
-    
+
+
+
     let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
         button.setTitleColor(.twitterBlue, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.backgroundColor = .white
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         //button.addTarget(self, action: #selector(handleShowSignUp(_:)), for: .touchUpInside)
         return button
     }()
-    
-    
     
     let newAccountButton: UIButton = {
         let button = UIButton(type: .system)
@@ -116,13 +104,10 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
         view.addTapAction(target: self, action: #selector(viewTapped))
-
     }
     
     @objc func handleShowSignUp() {
@@ -134,32 +119,27 @@ class LoginViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .twitterBlue
         navigationController?.navigationBar.barStyle = .default
-        
         view.addSubview(logoImageView)
 
-        
         logoImageView.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor)
         logoImageView.setDimensions(width: 150, height: 150)
-        
-
-        view.addSubview(newAccountButton)
-        newAccountButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 20).isActive = true
-        newAccountButton.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 16).isActive = true
-        newAccountButton.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -16).isActive = true
-        newAccountButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
 
         logoImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
         logoImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
 
-        view.addSubview(emailContainerView)
-        emailContainerView.addSubview(emailTextView)
-        view.addSubview(emailDivider)
         
-        view.addSubview(passwordContainerView)
-        passwordContainerView.addSubview(passwordTextView)
+        view.addSubview(emailImageView)
+        view.addSubview(emailTextView)
+        view.addSubview(emailDivider)
+
+        view.addSubview(passwordImageView)
+        view.addSubview(passwordTextView)
         view.addSubview(passwordDivider)
+
+        
         view.addSubview(loginButton)
+        view.addSubview(newAccountButton)
         
         
         logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -167,33 +147,42 @@ class LoginViewController: UIViewController {
         logoImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
         logoImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
-        emailContainerView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor,constant: 10).isActive = true
-        emailContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        emailContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        //emailContainerView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        emailTextView.leadingAnchor.constraint(equalTo: emailContainerView.leadingAnchor, constant: 30).isActive = true
-        emailTextView.trailingAnchor.constraint(equalTo: emailContainerView.trailingAnchor, constant: 5).isActive = true
+        emailImageView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 20).isActive = true
+        emailImageView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16).isActive = true
         
-        emailDivider.topAnchor.constraint(equalTo: emailContainerView.bottomAnchor,constant: 5).isActive = true
-        emailDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        emailDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        emailTextView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 20).isActive = true
+        emailTextView.leftAnchor.constraint(equalTo: emailImageView.rightAnchor, constant: 8).isActive = true
+        emailTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        emailDivider.topAnchor.constraint(equalTo: emailImageView.bottomAnchor, constant: 10).isActive = true
+        emailDivider.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        emailDivider.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+
+        passwordImageView.topAnchor.constraint(equalTo: emailDivider.bottomAnchor, constant: 30).isActive = true
+        passwordImageView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16).isActive = true
+        
+        passwordTextView.topAnchor.constraint(equalTo: emailDivider.bottomAnchor, constant: 30).isActive = true
+        passwordTextView.leftAnchor.constraint(equalTo: passwordImageView.rightAnchor, constant: 8).isActive = true
+        passwordTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        passwordDivider.topAnchor.constraint(equalTo: passwordImageView.bottomAnchor, constant: 10).isActive = true
+        passwordDivider.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        passwordDivider.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+
+        
+        loginButton.topAnchor.constraint(equalTo: passwordDivider.bottomAnchor, constant: 100).isActive = true
+        loginButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        loginButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
         
-        passwordContainerView.topAnchor.constraint(equalTo: emailDivider.bottomAnchor,constant: 20).isActive = true
-        passwordContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        passwordContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        //emailContainerView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        passwordTextView.leadingAnchor.constraint(equalTo: passwordContainerView.leadingAnchor, constant: 30).isActive = true
-        passwordTextView.trailingAnchor.constraint(equalTo: passwordContainerView.trailingAnchor, constant: 5).isActive = true
+        newAccountButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 20).isActive = true
+        newAccountButton.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 16).isActive = true
+        newAccountButton.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -16).isActive = true
+        newAccountButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        passwordDivider.topAnchor.constraint(equalTo: passwordContainerView.bottomAnchor,constant: 5).isActive = true
-        passwordDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        passwordDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         
-        loginButton.topAnchor.constraint(equalTo: passwordDivider.bottomAnchor, constant: 50).isActive = true
-        loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        
         
 /*
         loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
