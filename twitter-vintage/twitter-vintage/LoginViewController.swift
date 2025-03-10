@@ -8,7 +8,7 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
+    
     let logoImageView: UIImageView = {
         let iv = UIImageView(image: UIImage(named: "TwitterLogo"))
         iv.contentMode = .scaleAspectFit
@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
-
+    
     let emailImageView: UIImageView = {
         let im = UIImageView()
         im.image = UIImage(named: String(stringLiteral: "mail"))
@@ -25,11 +25,11 @@ class LoginViewController: UIViewController {
         im.translatesAutoresizingMaskIntoConstraints = false
         return im
     }()
-
-
+    
+    
     let emailTextView: UITextField = {
         let tv = UITextField()
-        tv.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        tv.attributedPlaceholder = NSAttributedString(string: "User Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         tv.textColor = .white
         tv.font = UIFont.systemFont(ofSize: 14)
         tv.textColor = .white
@@ -39,14 +39,14 @@ class LoginViewController: UIViewController {
     }()
     
     let emailDivider: UIView = {
-       let dv = UIView()
+        let dv = UIView()
         dv.backgroundColor = .white
         dv.tintColor = .white
         dv.translatesAutoresizingMaskIntoConstraints = false
         dv.heightAnchor.constraint(equalToConstant: 0.65).isActive = true
         return dv
     }()
-
+    
     let passwordImageView: UIImageView = {
         let im = UIImageView()
         im.image = UIImage(named: String(stringLiteral: "lock"))
@@ -55,8 +55,8 @@ class LoginViewController: UIViewController {
         im.translatesAutoresizingMaskIntoConstraints = false
         return im
     }()
-
-
+    
+    
     let passwordTextView: UITextField = {
         let tv = UITextField()
         tv.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
@@ -69,16 +69,16 @@ class LoginViewController: UIViewController {
     }()
     
     let passwordDivider: UIView = {
-       let dv = UIView()
+        let dv = UIView()
         dv.backgroundColor = .white
         dv.tintColor = .white
         dv.translatesAutoresizingMaskIntoConstraints = false
         dv.heightAnchor.constraint(equalToConstant: 0.65).isActive = true
         return dv
     }()
-
-
-
+    
+    
+    
     let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
@@ -89,7 +89,7 @@ class LoginViewController: UIViewController {
         
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
-        //button.addTarget(self, action: #selector(handleShowSignUp(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(doLogin), for: .touchUpInside)
         return button
     }()
     
@@ -100,7 +100,6 @@ class LoginViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
-        //button.backgroundColor = .red
         return button
     }()
     
@@ -108,39 +107,39 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         view.addTapAction(target: self, action: #selector(viewTapped))
+        if let _ = UserDefaults.standard.dictionary(forKey: "usuario") as? [String: String] {
+            //navegarParaHome()
+            print("usuario encontrado")
+            return
+        }
     }
     
     @objc func handleShowSignUp() {
         let controller = RegistrationViewController()
         navigationController?.pushViewController(controller, animated: true)
-        
     }
     
     func configureUI() {
         view.backgroundColor = .twitterBlue
         navigationController?.navigationBar.barStyle = .default
         view.addSubview(logoImageView)
-
+        
         logoImageView.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor)
         logoImageView.setDimensions(width: 150, height: 150)
         
-
         logoImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
         logoImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-
         
         view.addSubview(emailImageView)
         view.addSubview(emailTextView)
         view.addSubview(emailDivider)
-
+        
         view.addSubview(passwordImageView)
         view.addSubview(passwordTextView)
         view.addSubview(passwordDivider)
-
         
         view.addSubview(loginButton)
         view.addSubview(newAccountButton)
-        
         
         logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -157,7 +156,7 @@ class LoginViewController: UIViewController {
         emailDivider.topAnchor.constraint(equalTo: emailImageView.bottomAnchor, constant: 10).isActive = true
         emailDivider.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         emailDivider.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-
+        
         passwordImageView.topAnchor.constraint(equalTo: emailDivider.bottomAnchor, constant: 30).isActive = true
         passwordImageView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16).isActive = true
         
@@ -168,38 +167,37 @@ class LoginViewController: UIViewController {
         passwordDivider.topAnchor.constraint(equalTo: passwordImageView.bottomAnchor, constant: 10).isActive = true
         passwordDivider.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         passwordDivider.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-
         
         loginButton.topAnchor.constraint(equalTo: passwordDivider.bottomAnchor, constant: 100).isActive = true
         loginButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         loginButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-        
         
         newAccountButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 20).isActive = true
         newAccountButton.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 16).isActive = true
         newAccountButton.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -16).isActive = true
         newAccountButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        
-        
-        
-        
-/*
-        loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        let stack = UIStackView(arrangedSubviews: [emailContainerView, emailDivider, passwordContainerView, passwordDivider, loginButton])
-        stack.axis = .vertical
-        stack.spacing = 20
-        
-        view.addSubview(stack)
-        stack.anchor(top: logoImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 32, paddingRight: 32)
-*/
-        
     }
-
+    
     
     @objc func viewTapped() {
         print("View foi clicada!")
         view.dismissKeyboardIfActive()
+    }
+    
+    @objc func doLogin() {
+        
+        guard let email = emailTextView.text, !email.isEmpty,
+              let senha = passwordTextView.text, !senha.isEmpty else {
+            showAlert(titulo: "Erro", mensagem: "Preencha todos os campos.")
+            return
+        }
+        print("Login realizado com sucesso!")
+    }
+    
+    private func showAlert(titulo: String, mensagem: String) {
+            let alert = UIAlertController(title: titulo, message: mensagem, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true)
     }
 }

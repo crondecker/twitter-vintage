@@ -74,7 +74,7 @@ class RegistrationViewController: UIViewController {
     
     var nameTextField: UITextField = {
         let view = UITextField()
-        view.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        view.attributedPlaceholder = NSAttributedString(string: "User Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         view.textColor = .white
         view.font = UIFont.systemFont(ofSize: 14)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -94,13 +94,24 @@ class RegistrationViewController: UIViewController {
     var saveNewUserButton: UIButton = {
         let view = UIButton(type: .system)
         view.setTitle("Sign Up", for: .normal)
-        view.setTitleColor(.white, for: .normal)
+        view.setTitleColor(.twitterBlue, for: .normal)
         view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         view.layer.cornerRadius = 5
-        view.backgroundColor = .twitterBlue
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return view
     }()
-
+    
+    let backToLoginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Already have an account? Sign In", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleLoginScreen), for: .touchUpInside)
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,6 +132,8 @@ class RegistrationViewController: UIViewController {
         view.addSubview(emailImageView)
         view.addSubview(emailTextField)
         view.addSubview(emailDividerView)
+        view.addSubview(saveNewUserButton)
+        view.addSubview(backToLoginButton)
 
         
         
@@ -156,13 +169,27 @@ class RegistrationViewController: UIViewController {
         emailDividerView.topAnchor.constraint(equalTo: emailImageView.bottomAnchor, constant: 5).isActive = true
         emailDividerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         emailDividerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -20).isActive = true
+        
+        saveNewUserButton.bottomAnchor.constraint(equalTo: backToLoginButton.topAnchor, constant: -50).isActive = true
+        saveNewUserButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        saveNewUserButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+        
+        backToLoginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 20).isActive = true
+        backToLoginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        backToLoginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+        backToLoginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-        
-        
+
     }
     
     @objc func viewTapped() {
         print("View foi clicada!")
         view.dismissKeyboardIfActive()
+    }
+    
+    @objc func handleLoginScreen(){
+        print("sdfsdfsdfsdf")
+        navigationController?.popViewController(animated: true)
+        
     }
 }
