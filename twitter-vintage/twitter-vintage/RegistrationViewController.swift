@@ -8,7 +8,7 @@
 import UIKit
 
 class RegistrationViewController: UIViewController {
-
+    
     var emailImageView: UIImageView = {
         var view = UIImageView()
         view.image = UIImage(systemName: "envelope")
@@ -100,6 +100,7 @@ class RegistrationViewController: UIViewController {
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        view.addTarget(self, action: #selector(handleNewUser), for: .touchUpInside)
         return view
     }()
     
@@ -112,7 +113,7 @@ class RegistrationViewController: UIViewController {
         button.addTarget(self, action: #selector(handleLoginScreen), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -134,12 +135,11 @@ class RegistrationViewController: UIViewController {
         view.addSubview(emailDividerView)
         view.addSubview(saveNewUserButton)
         view.addSubview(backToLoginButton)
-
         
         
         nameImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         nameImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
-
+        
         nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18).isActive = true
         nameTextField.leadingAnchor.constraint(equalTo: nameImageView.leadingAnchor, constant: 30).isActive = true
         nameTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
@@ -147,7 +147,7 @@ class RegistrationViewController: UIViewController {
         nameDividerView.topAnchor.constraint(equalTo: nameImageView.bottomAnchor, constant: 5).isActive = true
         nameDividerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         nameDividerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -20).isActive = true
-                
+        
         passwordImageView.topAnchor.constraint(equalTo: nameDividerView.bottomAnchor, constant: 10).isActive = true
         passwordImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         
@@ -158,7 +158,7 @@ class RegistrationViewController: UIViewController {
         passwordDividerView.topAnchor.constraint(equalTo: passwordImageView.bottomAnchor, constant: 5).isActive = true
         passwordDividerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         passwordDividerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -20).isActive = true
-
+        
         emailImageView.topAnchor.constraint(equalTo: passwordDividerView.bottomAnchor, constant: 10).isActive = true
         emailImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         
@@ -178,8 +178,8 @@ class RegistrationViewController: UIViewController {
         backToLoginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         backToLoginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         backToLoginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-
+        
+        
     }
     
     @objc func viewTapped() {
@@ -190,6 +190,20 @@ class RegistrationViewController: UIViewController {
     @objc func handleLoginScreen(){
         print("sdfsdfsdfsdf")
         navigationController?.popViewController(animated: true)
-        
     }
+    
+    @objc func handleNewUser(){
+            showAlert(titulo: "Cadastro", mensagem: "Usuário cadastrado com sucesso!")
+    }
+    
+    private func showAlert(titulo: String, mensagem: String) {
+            let alert = UIAlertController(title: titulo, message: mensagem, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                print("Botão OK foi pressionado.")
+                self.navigationController?.popViewController(animated: true)
+            })
+    
+            present(alert, animated: true)
+    }
+
 }

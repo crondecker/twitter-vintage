@@ -179,7 +179,6 @@ class LoginViewController: UIViewController {
         
     }
     
-    
     @objc func viewTapped() {
         print("View foi clicada!")
         view.dismissKeyboardIfActive()
