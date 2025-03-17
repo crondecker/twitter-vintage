@@ -107,11 +107,11 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         view.addTapAction(target: self, action: #selector(viewTapped))
-        if let _ = UserDefaults.standard.dictionary(forKey: "usuario") as? [String: String] {
-            //navegarParaHome()
-            print("usuario encontrado")
-            return
-        }
+//        if let _ = UserDefaults.standard.dictionary(forKey: "usuario") as? [String: String] {
+//            goHome()
+//            print("usuario encontrado")
+//            return
+//        }
     }
     
     @objc func handleShowSignUp() {
@@ -191,6 +191,25 @@ class LoginViewController: UIViewController {
             showAlert(titulo: "Erro", mensagem: "Preencha todos os campos.")
             return
         }
+
+        if let usuarioSalvo = UserDefaults.standard.dictionary(forKey: "usuario") as? [String: String] {
+            let emailSalvo = usuarioSalvo["email"] ?? "erroemail"
+            let senhaSalva = usuarioSalvo["password"] ?? "errosenha"
+            
+            if email == emailSalvo && senha == senhaSalva {
+                print("email \(email) email salvo \(emailSalvo) , senha \(senha) senha salva \(senhaSalva)")
+                goHome()
+            }
+            else {
+                print(usuarioSalvo)
+                print("email \(email) email salvo \(emailSalvo) , senha \(senha) senha salva \(senhaSalva)")
+                showAlert(titulo: "Erro de Login", mensagem: "Email ou senha incorretos.")
+            }
+                
+        } else {
+                showAlert(titulo: "Nenhum usuário", mensagem: "Cadastre-se primeiro.")
+        }
+        
         print("Login realizado com sucesso!")
     }
     
@@ -199,4 +218,9 @@ class LoginViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true)
     }
+    
+    @objc func goHome() {
+        self.navigationController?.pushViewController(HomeViewController(), animated: true)
+    }
+
 }

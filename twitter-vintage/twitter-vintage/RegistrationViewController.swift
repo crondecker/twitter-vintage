@@ -117,7 +117,7 @@ class RegistrationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        view.addTapAction(target: self, action: #selector(viewTapped))
+        view.addTapAction(target: self, action: #selector(viewTapped))        
     }
     
     func configureUI() {
@@ -178,8 +178,6 @@ class RegistrationViewController: UIViewController {
         backToLoginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         backToLoginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         backToLoginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        
     }
     
     @objc func viewTapped() {
@@ -193,7 +191,19 @@ class RegistrationViewController: UIViewController {
     }
     
     @objc func handleNewUser(){
-            showAlert(titulo: "Cadastro", mensagem: "Usuário cadastrado com sucesso!")
+        
+        guard let email = emailTextField.text, !email.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty,
+              let name = nameTextField.text,!name.isEmpty
+            else {
+            showAlert(titulo: "Erro", mensagem: "Preencha todos os campos!")
+            return
+        }
+        
+        let usuario = ["email":email,"password":password,"name":name]
+        UserDefaults.standard.set(usuario, forKey: "usuario")
+        showAlert(titulo: "Cadastro", mensagem: "Usuário cadastrado com sucesso!")
+        
     }
     
     private func showAlert(titulo: String, mensagem: String) {
@@ -204,6 +214,5 @@ class RegistrationViewController: UIViewController {
             })
     
             present(alert, animated: true)
-    }
-
+    }    
 }
